@@ -1269,8 +1269,8 @@ class NpmSpec(BaseSpec):
         PART = r'[a-zA-Z0-9.-]*'
         OP = r'~>|<=|>=|>|<|\^|~|='
         NPM_SPEC_BLOCK = re.compile(r"""
-            ^(?:v)?                     # Strip optional initial v
-            (?P<op>{op}|)               # Operator, can be empty
+            ^(?P<op>{op}|)              # Operator, can be empty
+            (?:v)?                      # Strip optional initial v
             (?P<major>{nb})(?:\.(?P<minor>{nb})(?:\.(?P<patch>{nb}))?)?
             (?:-(?P<prerel>{part}))?    # Optional re-release
             (?:\+(?P<build>{part}))?    # Optional build

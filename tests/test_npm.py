@@ -5,8 +5,8 @@
 
 """Test NPM-style specifications."""
 
-import unittest
 import sys
+import unittest
 
 from semantic_version import base
 
@@ -136,6 +136,11 @@ class NpmSpecTests(unittest.TestCase):
         '   >=1.2.3 <2.0.0    ': '>=1.2.3 <2.0.0',
         '1.2.7 ||    >=1.2.9 <2.0.0': '1.2.7 || >=1.2.9 <2.0.0',
         '1.2.7 ||    >= 1.2.9 < 2.0.0': '1.2.7 || >=1.2.9 <2.0.0',
+
+        # With v prefix
+        '^v1.2.3': '^1.2.3',
+        'v1.2.3 || ^v3.4.5': '1.2.3 || ^3.4.5',
+        '>=v1.2.3 || <=v3.4.5': '>=1.2.3 || <=3.4.5',
     }
 
     def test_expand(self):
@@ -148,8 +153,8 @@ class NpmSpecTests(unittest.TestCase):
 
     equivalent_npmspecs = {
         '||': '*',
-        #'>1.2.3 || *': '*',
-        #'>=1.2.1 <=2.3.4': '>1.2.0 <2.3.5',
+        # '>1.2.3 || *': '*',
+        # '>=1.2.1 <=2.3.4': '>1.2.0 <2.3.5',
     }
 
     def test_equivalent(self):
