@@ -5,8 +5,8 @@
 
 """Test the various functions from 'base'."""
 
-import unittest
 import sys
+import unittest
 
 from semantic_version import base
 
@@ -612,6 +612,7 @@ class CoerceTestCase(unittest.TestCase):
         '0.1.0+2-3.4': ('0.1.0+2-3.4', '0.1.0+2-3+4', '0.1.0.2-3+4', '0.1.0.2_3+4'),
         '0.1.0-a2.3': ('0.1.0-a2.3', '0.1.0a2.3', '0.1.0_a2.3'),
         '0.1.0-a2.3+4.5-6': ('0.1.0-a2.3+4.5-6', '0.1.0a2.3+4.5-6', '0.1.0a2.3+4.5_6', '0.1.0a2.3+4+5/6'),
+        '1.2.0': ('1.2.0', 'v1.2', 'v1.2.0'),
     }
 
     def test_coerce(self):
@@ -623,7 +624,7 @@ class CoerceTestCase(unittest.TestCase):
                     self.assertEqual(target, v_sample)
 
     def test_invalid(self):
-        self.assertRaises(ValueError, base.Version.coerce, 'v1')
+        self.assertRaises(ValueError, base.Version.coerce, 'x1')
 
 
 class SpecTestCase(unittest.TestCase):

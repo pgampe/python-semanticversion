@@ -242,6 +242,7 @@ class Version(object):
             >>> Version.coerce('0.1+2-3+4_5')
             Version(0, 1, 0, (), ('2-3', '4-5'))
         """
+        version_string = version_string.strip().lstrip('v')
         base_re = re.compile(r'^\d+(?:\.\d+(?:\.\d+)?)?')
 
         match = base_re.match(version_string)
@@ -1279,7 +1280,7 @@ class NpmSpec(BaseSpec):
         OP_RE = re.compile(r"""
             ^(?:{op})$      # A standalone operator, cannot be empty
             """.format(op=OP),
-           re.VERBOSE,
+            re.VERBOSE,
         )
 
         @classmethod
@@ -1312,7 +1313,6 @@ class NpmSpec(BaseSpec):
                             maybe_prepend_op = block
                         else:
                             raise ValueError("Invalid NPM block in %r: %r" % (expression, block))
-
 
                 prerelease_clauses = []
                 non_prerel_clauses = []
