@@ -321,7 +321,7 @@ class Version(object):
         else:
             version_re = cls.version_re
 
-        match = version_re.match(version_string)
+        match = version_re.match(version_string.strip().lstrip('v'))
         if not match:
             raise ValueError('Invalid version string: %r' % version_string)
 
