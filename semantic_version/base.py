@@ -72,7 +72,7 @@ class AlphaIdentifier(object):
 class Version(object):
 
     version_re = re.compile(
-        r'^(\d+)[\.-](\d+)[\.-](\d+)(?:[\.-]([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
+        r'^(\d+)[\.-](\d+)[\.-](\d+[a-zA-Z0-9]*)(?:[\.-]([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
     partial_version_re = re.compile(
         r'^(\d+)(?:[\.-](\d+)(?:[\.-](\d+))?)?(?:[\.-]([0-9a-zA-Z.-]*))?(?:\+([0-9a-zA-Z.-]*))?$')
 
@@ -324,7 +324,11 @@ class Version(object):
 
         major = int(major)
         minor = cls._coerce(minor, partial)
-        patch = cls._coerce(patch, partial)
+        if patch is not None:
+            patch_part, prerel_part = re.match(r'(\d+)(:?[a-zA-Z0-9]*)', patch).groups()
+            patch = cls._coerce(patch_part, partial)
+            if prerel_part:
+                prerelease = prerel_part if prerelease is None else prerel_part + prerelease
 
         if prerelease is None:
             if partial and (build is None):
@@ -1253,7 +1257,7 @@ class NpmSpec(BaseSpec):
         JOINER = '||'
         HYPHEN = ' - '
 
-        NUMBER = r'x|X|\*|0|0{0,3}[1-9][0-9]*'
+        NUMBER = r'x|X|\*|0|0{0,3}[1-9][0-9a-zA-Z]*'
         PART = r'[a-zA-Z0-9.-]*'
         OP = r'~>|<=|>=|>|<|\^|~|='
         NPM_SPEC_BLOCK = re.compile(r"""
@@ -1363,6 +1367,11 @@ class NpmSpec(BaseSpec):
 
         EMPTY_VALUES = ['*', 'x', 'X', None]
 
+        def _assure_int(cls, s):
+            if not s.isdigit():
+                raise ValueError("Not an integer value in %r" % s)
+            return int(s)
+
         @classmethod
         def parse_simple(cls, simple):
             match = cls.NPM_SPEC_BLOCK.match(simple)
@@ -1370,9 +1379,15 @@ class NpmSpec(BaseSpec):
             prefix, major_t, minor_t, patch_t, prerel, build = match.groups()
 
             prefix = cls.PREFIX_ALIASES.get(prefix, prefix)
-            major = None if major_t in cls.EMPTY_VALUES else int(major_t)
-            minor = None if minor_t in cls.EMPTY_VALUES else int(minor_t)
-            patch = None if patch_t in cls.EMPTY_VALUES else int(patch_t)
+            major = None if major_t in cls.EMPTY_VALUES else cls._assure_int(cls, major_t)
+            minor = None if minor_t in cls.EMPTY_VALUES else cls._assure_int(cls, minor_t)
+            if patch_t in cls.EMPTY_VALUES:
+                patch = None
+            else:
+                patch_part, prerel_part = re.match(r'(\d+)(:?[a-zA-Z0-9]*)', patch_t).groups()
+                patch = int(patch_part)
+                if prerel_part:
+                    prerel = prerel_part if prerel is None else prerel_part + prerel
 
             if build is not None and prefix not in [cls.PREFIX_EQ]:
                 # Ignore the 'build' part when not comparing to a specific part.

@@ -61,6 +61,10 @@ class NpmSpecTests(unittest.TestCase):
             ['1.2.3.0', '1.2.3.4', '1.2.3.4-beta', '1.2.3.5'],
             ['1.2.4.0'],
         ),
+        '<1.2.3a4': (
+            ['1.2.2', '1.2.3a3', '1.2.3a4'],
+            ['1.2.3', '1.3.4'],
+        ),
     }
 
     def test_spec(self):
@@ -162,6 +166,9 @@ class NpmSpecTests(unittest.TestCase):
         # Overlong strings
         '<2.0.8.1': '<2.0.8.1',
 
+        # Direct attached prereleases
+        '<1.2.3a2': '<1.2.3-a2',
+
     }
 
     def test_expand(self):
@@ -194,11 +201,13 @@ class NpmSpecTests(unittest.TestCase):
         '>>0.1.2',
         '> = 0.1.2',
         '<=>0.1.2',
-        '~1.2.3beta',
+        # '~1.2.3beta',
         '~=1.2.3',
         '!0.1.2',
         '!=0.1.2',
-        '>1.00004.3'
+        '>1.00004.3',
+        '<1a.2.3',
+        '<1.2a.3',
     ]
 
     def test_invalid(self):

@@ -73,6 +73,8 @@ class TopLevelTestCase(unittest.TestCase):
         '03.12.5',
         '1-2-3-beta',
         '2.0.8.1',
+        '1.2.3a4',
+
     )
 
     def test_validate_valid(self):
@@ -87,7 +89,6 @@ class TopLevelTestCase(unittest.TestCase):
         'v1',
         '1.2',
         '1.2a3',
-        '1.2.3a4',
         'x12.34.5',
         '1.2.3+4+5',
     )

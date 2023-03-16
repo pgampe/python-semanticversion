@@ -23,7 +23,6 @@ class ParsingTestCase(unittest.TestCase):
         '',
         '0',
         '0.1',
-        '0.1.4a',
         '0.1.2-rc23,1',
     ]
 
