@@ -7,13 +7,6 @@ import re
 import warnings
 
 
-def _has_leading_zero(value):
-    return (value
-            and value[0] == '0'
-            and value.isdigit()
-            and value != '0')
-
-
 class MaxIdentifier(object):
     __slots__ = []
 
@@ -78,8 +71,10 @@ class AlphaIdentifier(object):
 
 class Version(object):
 
-    version_re = re.compile(r'^(\d+)\.(\d+)\.(\d+)(?:-([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
-    partial_version_re = re.compile(r'^(\d+)(?:\.(\d+)(?:\.(\d+))?)?(?:-([0-9a-zA-Z.-]*))?(?:\+([0-9a-zA-Z.-]*))?$')
+    version_re = re.compile(
+        r'^(\d+)[\.-](\d+)[\.-](\d+)(?:-([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
+    partial_version_re = re.compile(
+        r'^(\d+)(?:[\.-](\d+)(?:[\.-](\d+))?)?(?:-([0-9a-zA-Z.-]*))?(?:\+([0-9a-zA-Z.-]*))?$')
 
     def __init__(
             self,
@@ -326,13 +321,6 @@ class Version(object):
             raise ValueError('Invalid version string: %r' % version_string)
 
         major, minor, patch, prerelease, build = match.groups()
-
-        if _has_leading_zero(major):
-            raise ValueError("Invalid leading zero in major: %r" % version_string)
-        if _has_leading_zero(minor):
-            raise ValueError("Invalid leading zero in minor: %r" % version_string)
-        if _has_leading_zero(patch):
-            raise ValueError("Invalid leading zero in patch: %r" % version_string)
 
         major = int(major)
         minor = cls._coerce(minor, partial)
@@ -1271,7 +1259,7 @@ class NpmSpec(BaseSpec):
         NPM_SPEC_BLOCK = re.compile(r"""
             ^(?P<op>{op}|)              # Operator, can be empty
             (?:v)?                      # Strip optional initial v
-            (?P<major>{nb})(?:\.(?P<minor>{nb})(?:\.(?P<patch>{nb}))?)?
+            (?P<major>{nb})(?:[\.-](?P<minor>{nb})(?:[\.-](?P<patch>{nb}))?)?
             (?:-(?P<prerel>{part}))?    # Optional re-release
             (?:\+(?P<build>{part}))?    # Optional build
             $""".format(nb=NUMBER, part=PART, op=OP),

@@ -42,14 +42,6 @@ class FormatTests(unittest.TestCase):
         self.assertEqual(2, v.minor)
         self.assertEqual(3, v.patch)
 
-        # SPEC:
-        # And MUST NOT contain leading zeroes
-        with self.assertRaises(ValueError):
-            Version('1.2.01')
-        with self.assertRaises(ValueError):
-            Version('1.02.1')
-        with self.assertRaises(ValueError):
-            Version('01.2.1')
         # Valid
         v = Version('0.0.0')
         self.assertEqual(0, v.major)
