@@ -72,9 +72,9 @@ class AlphaIdentifier(object):
 class Version(object):
 
     version_re = re.compile(
-        r'^(\d+)[\.-](\d+)[\.-](\d+)(?:-([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
+        r'^(\d+)[\.-](\d+)[\.-](\d+)(?:[\.-]([0-9a-zA-Z.-]+))?(?:\+([0-9a-zA-Z.-]+))?$')
     partial_version_re = re.compile(
-        r'^(\d+)(?:[\.-](\d+)(?:[\.-](\d+))?)?(?:-([0-9a-zA-Z.-]*))?(?:\+([0-9a-zA-Z.-]*))?$')
+        r'^(\d+)(?:[\.-](\d+)(?:[\.-](\d+))?)?(?:[\.-]([0-9a-zA-Z.-]*))?(?:\+([0-9a-zA-Z.-]*))?$')
 
     def __init__(
             self,
@@ -1260,7 +1260,7 @@ class NpmSpec(BaseSpec):
             ^(?P<op>{op}|)              # Operator, can be empty
             (?:v)?                      # Strip optional initial v
             (?P<major>{nb})(?:[\.-](?P<minor>{nb})(?:[\.-](?P<patch>{nb}))?)?
-            (?:-(?P<prerel>{part}))?    # Optional re-release
+            (?:[\.-](?P<prerel>{part}))?    # Optional re-release
             (?:\+(?P<build>{part}))?    # Optional build
             $""".format(nb=NUMBER, part=PART, op=OP),
             re.VERBOSE,

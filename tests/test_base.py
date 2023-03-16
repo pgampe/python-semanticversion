@@ -72,6 +72,7 @@ class TopLevelTestCase(unittest.TestCase):
         '2020-09-14',
         '03.12.5',
         '1-2-3-beta',
+        '2.0.8.1',
     )
 
     def test_validate_valid(self):
@@ -84,7 +85,6 @@ class TopLevelTestCase(unittest.TestCase):
     invalid_strings = (
         '1',
         'v1',
-        '1.2.3.4',
         '1.2',
         '1.2a3',
         '1.2.3a4',

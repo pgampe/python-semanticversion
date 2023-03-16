@@ -4,8 +4,8 @@
 # This code is distributed under the two-clause BSD License.
 
 import itertools
-import unittest
 import sys
+import unittest
 
 import semantic_version
 
@@ -24,7 +24,6 @@ class ParsingTestCase(unittest.TestCase):
         '0',
         '0.1',
         '0.1.4a',
-        '0.1.1.1',
         '0.1.2-rc23,1',
     ]
 

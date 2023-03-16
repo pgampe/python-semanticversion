@@ -26,8 +26,6 @@ class FormatTests(unittest.TestCase):
             Version('1.1')
         # Doesn't raise
         Version('1.2.3')
-        with self.assertRaises(ValueError):
-            Version('1.2.3.4')
 
         # SPEC:
         # Where X, Y, and Z are non-negative integers,

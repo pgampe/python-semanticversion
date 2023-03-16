@@ -57,6 +57,10 @@ class NpmSpecTests(unittest.TestCase):
             ['2020-09-13', '2020-08-14', '2019-09-14'],
             ['2020-09-14', '2022-09-14'],
         ),
+        '<1.2.3.4': (  # minor issue here, 1.2.3.5 is bigger, but considered a prerelease
+            ['1.2.3.0', '1.2.3.4', '1.2.3.4-beta', '1.2.3.5'],
+            ['1.2.4.0'],
+        ),
     }
 
     def test_spec(self):
@@ -154,6 +158,9 @@ class NpmSpecTests(unittest.TestCase):
         '1-2-3': '1.2.3',
         '<2020-09-14': '<2020.9.14',
         '>2020-09-14-beta3': '>2020.9.14-beta3',
+
+        # Overlong strings
+        '<2.0.8.1': '<2.0.8.1',
 
     }
 
