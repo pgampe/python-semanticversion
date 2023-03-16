@@ -238,7 +238,7 @@ class Version(object):
             Version(0, 1, 0, (), ('2-3', '4-5'))
         """
         version_string = version_string.strip().lstrip('v').replace('*', '0')
-        base_re = re.compile(r'^\d+(?:\.\d+(?:\.\d+)?)?')
+        base_re = re.compile(r'^\d+(?:[\.-]\d+(?:[\.-]\d+)?)?')
 
         match = base_re.match(version_string)
         if not match:
