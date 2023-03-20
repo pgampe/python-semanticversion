@@ -169,7 +169,10 @@ class NpmSpecTests(unittest.TestCase):
         # With attached prereleases
         '<1.2.3a2': '<1.2.3-a2',
         '>=3.0.0a1': '>=3.0.0-a1',
-        '<=2.0-RC1': '<=2.0-RC1'
+        '<=2.0-RC1': '<=2.0-RC1',
+
+        # Other special cases
+        '>=5.00': '>=5.0.0',
 
     }
 

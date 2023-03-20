@@ -1257,7 +1257,7 @@ class NpmSpec(BaseSpec):
         JOINER = '||'
         HYPHEN = ' - '
 
-        NUMBER = r'x|X|\*|0|0{0,3}[1-9][0-9]*'
+        NUMBER = r'x|X|\*|0{1,3}|0{0,3}[1-9][0-9]*'
         PART = r'[a-zA-Z0-9.-]*'
         OP = r'~>|<=|>=|>|<|\^|~|='
         NPM_SPEC_BLOCK = re.compile(r"""
