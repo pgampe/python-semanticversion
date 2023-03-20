@@ -166,8 +166,10 @@ class NpmSpecTests(unittest.TestCase):
         # Overlong strings
         '<2.0.8.1': '<2.0.8.1',
 
-        # Direct attached prereleases
+        # With attached prereleases
         '<1.2.3a2': '<1.2.3-a2',
+        '>=3.0.0a1': '>=3.0.0-a1',
+        '<=2.0-RC1': '<=2.0-RC1'
 
     }
 

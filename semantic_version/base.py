@@ -1257,7 +1257,7 @@ class NpmSpec(BaseSpec):
         JOINER = '||'
         HYPHEN = ' - '
 
-        NUMBER = r'x|X|\*|0|0{0,3}[1-9][0-9a-zA-Z]*'
+        NUMBER = r'x|X|\*|0|0{0,3}[1-9][0-9]*'
         PART = r'[a-zA-Z0-9.-]*'
         OP = r'~>|<=|>=|>|<|\^|~|='
         NPM_SPEC_BLOCK = re.compile(r"""
@@ -1388,6 +1388,16 @@ class NpmSpec(BaseSpec):
                 patch = int(patch_part)
                 if prerel_part:
                     prerel = prerel_part if prerel is None else prerel_part + prerel
+
+            if patch is None and prerel is not None:
+                matches = re.match(r'(\d+)(:?[a-zA-Z0-9]*)', prerel)
+                if matches:
+                    patch_part, prerel_part = matches.groups()
+                    patch = int(patch_part)
+                    if prerel_part:
+                        prerel = prerel_part
+                else:
+                    patch = 0
 
             if build is not None and prefix not in [cls.PREFIX_EQ]:
                 # Ignore the 'build' part when not comparing to a specific part.
